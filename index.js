@@ -29,12 +29,14 @@ const gamesContainer = document.getElementById("games-container");
 function addGamesToPage(games) {
 
     // loop over each item in the data
+    for (let game = 0; game < games.length; game++){
 
 
         // create a new div element, which will become the game card
-
+        const gamesCard = document.createElement('div');
 
         // add the class game-card to the list
+        gamesCard.classList.add('game-card');
 
 
         // set the inner HTML using a template literal to display some info 
@@ -44,7 +46,7 @@ function addGamesToPage(games) {
 
 
         // append the game to the games-container
-
+    }
 }
 
 // call the function we just defined using the correct variable
