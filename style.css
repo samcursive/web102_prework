@@ -21,6 +21,10 @@ body {
 
 .stats-container {
     display: flex;
+    align-items: center; 
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .stats-card {
