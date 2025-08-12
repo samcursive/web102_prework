@@ -166,11 +166,40 @@ const descriptionContainer = document.getElementById("description-container");
 
 // use filter or reduce to count the number of unfunded games
 
+//Filter Approach
+//const unfundedGamesCount = GAMES_JSON.filter(game => game.pledged < game.goal);
+//const unfundedGamesCount = unfundedGamesCount.length;
+
+//Reduce Approach
+const unfundedGamesCount = GAMES_JSON.reduce ( (total, game) => {
+      return total + (game.pledged < game.goal ? 1 : 0);
+    }, 0);
+
 
 // create a string that explains the number of unfunded games using the ternary operator
+/*
+1. Calculate total money pledged, and for how n games. Does that include pledges that are not met?
+2. Calculate the number of undfunded games. 
+*/
+let displaystr1 = "game remains";
+let displaystr2 = "games remain";
+let fundingMessage;
 
+if (unfundedGamesCount < 1)
+{
+    fundingMessage = `A total of $${totalRaised.toLocaleString()} has been raised for ${totalGames} games. All games are fully funded! Thank you for your support!;`
+}
+else 
+{
+    fundingMessage = `A total of $${totalRaised.toLocaleString()} has been raised for ${totalGames} games. Currently, ${unfundedGamesCount} ${unfundedGamesCount === 1 ? displaystr1 : displaystr2 } unfunded. We need your help to fund these amazing games!`;
+}
+
+console.log(fundingMessage);
 
 // create a new DOM element containing the template string and append it to the description container
+const p = document.createElement("p");
+p.textContent = fundingMessage;
+descriptionContainer.appendChild(p);
 
 /************************************************************************************
  * Challenge 7: Select & display the top 2 games
@@ -184,8 +213,19 @@ const sortedGames =  GAMES_JSON.sort( (item1, item2) => {
     return item2.pledged - item1.pledged;
 });
 
+
+
+
 // use destructuring and the spread operator to grab the first and second games
+const [topGame, secondGame, ...rest] = sortedGames;
+
 
 // create a new element to hold the name of the top pledge game, then append it to the correct element
+const topGameElement = document.createElement("p");
+topGameElement.textContent = `${topGame.name}`;
+firstGameContainer.appendChild(topGameElement);
 
 // do the same for the runner up item
+const secondGameElement = document.createElement("p");
+secondGameElement.textContent = `${secondGame.name}`;
+secondGameContainer.appendChild(secondGameElement);
