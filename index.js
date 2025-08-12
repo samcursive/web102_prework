@@ -68,26 +68,37 @@ addGamesToPage(GAMES_JSON);
 */
 
 // grab the contributions card element
-const contributionsCard = document.getElementById("total-raised");
+const contributionsCard = document.getElementById("num-contributions");
 
 // use reduce() to count the number of total contributions by summing the backers
-const totalRaised = GAMES_JSON.reduce( (total, games) => {
-    return total + games.pledged;
+const totalContributions = GAMES_JSON.reduce( (total, games) => {
+    return total + games.backers;
 }, 0);
 
 // set the inner HTML using a template literal and toLocaleString to get a number with commas
 contributionsCard.innerHTML = `
-    <p>Total Contributions: ${totalRaised.toLocaleString()}</p>
+    <p>Total Contributions: ${totalContributions.toLocaleString()}</p>
 `
 
 // grab the amount raised card, then use reduce() to find the total amount raised
 const raisedCard = document.getElementById("total-raised");
 
+const totalRaised = GAMES_JSON.reduce( (sum, game) => {
+    return sum + game.pledged; 
+},0);
+
 // set inner HTML using template literal
+raisedCard.innerHTML = `<p>Total Raised: $${totalRaised.toLocaleString()}</p>
+`
 
 
 // grab number of games card and set its inner HTML
 const gamesCard = document.getElementById("num-games");
+
+const totalGames = GAMES_JSON.length;
+
+gamesCard.innerHTML = `<p>Number of Games: ${totalGames}</p>`;
+
 
 
 /*************************************************************************************
@@ -101,9 +112,13 @@ function filterUnfundedOnly() {
     deleteChildElements(gamesContainer);
 
     // use filter() to get a list of games that have not yet met their goal
+    const unfundedGames = GAMES_JSON.filter( (game) => {
+         return game.pledged < game.goal;
+     });
 
 
     // use the function we previously created to add the unfunded games to the DOM
+    addGamesToPage(unfundedGames);
 
 }
 
